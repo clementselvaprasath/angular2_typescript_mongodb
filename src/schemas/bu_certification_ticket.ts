@@ -1,17 +1,18 @@
 import { Schema } from "mongoose";
-import time;
+//import time;
 
 export var buCertificationTicketSchema: Schema = new Schema({
-  pre_certified: Number,
-  none: Number,
+  pre_certified: String,
+  none: String,
   name: String,
-  in_dashboard: Number,
-  auto_certified: Number,
+  in_dashboard: String,
+  auto_certified: String,
   time: Number
 });
 buCertificationTicketSchema.pre("save", function(next) {
   if (!this.time) {
-    this.time = int(time.time());
+    this.time = 999999;
   }
   next();
 });
+

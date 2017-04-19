@@ -11,17 +11,14 @@ import mongoose = require("mongoose"); //import mongoose
 import { IndexRoute } from "./routes/index";
 
 //interfaces
-//import { IUser } from "./interfaces/user"; //import IUser
-import { IBuCertificationTicket } from "./interfaces/bu_certification_ticket";
+import { IUser } from "./interfaces/user"; //import IUser
 
 //models
 import { IModel } from "./models/model"; //import IModel
-//import { IUserModel } from "./models/user"; //import IUserModel
-import { IBuCertificationTicketModel } from "./models/bu_certification_ticket";
+import { IUserModel } from "./models/user"; //import IUserModel
 
 //schemas
-//import { userSchema } from "./schemas/user"; //import userSchema
-import { buCertificationTicketSchema } from "./schemas/bu_certification_ticket";
+import { userSchema } from "./schemas/user"; //import userSchema
 
 /**
  * The server.
@@ -86,7 +83,7 @@ export class Server {
    * @method config
    */
   public config() {
-    const MONGODB_CONNECTION: string = "mongodb://10.24.155.57:27017/eci_bot";
+    const MONGODB_CONNECTION: string = "mongodb://10.24.155.57:27017/heros";
 
     //add static paths
     this.app.use(express.static(path.join(__dirname, "public")));
@@ -120,39 +117,21 @@ export class Server {
     let connection: mongoose.Connection = mongoose.createConnection(MONGODB_CONNECTION);
 
     //create models
-//    this.model.user = connection.model<IUserModel>("User", userSchema);
+    this.model.user = connection.model<IUserModel>("User", userSchema);
 
-    this.model.bu_certification_ticket = connection.model<IBuCertificationTicketModel>("BuCertificationTicket", buCertificationTicketSchema);
-
-    //this.model.user.find({}, function (err, docs) {
-    //  if (err) {
-    //    //res.status(504);
-    //    //res.end(err);
-    //    console.log('Error :', err);
-     // } else {
-     //   for (var i = 0; i < docs.length; i++) {
-     //    console.log('user:', docs[i].firstName);
-     //   }
-     //   //res.end(JSON.stringify(docs));
-     // }
-    //});
-    console.log('Calling bu_certification_ticket');
-    this.model.bu_certification_ticket.find({}, function (err, docs) {
-      console.log('In bu_certification_ticket');
-      console.log(err);
-      console.log(docs);
+    this.model.user.find({}, function (err, docs) {
       if (err) {
         //res.status(504);
         //res.end(err);
         console.log('Error :', err);
       } else {
         for (var i = 0; i < docs.length; i++) {
-         console.log('user:', docs[i].name);
+         console.log('user:', docs[i].firstName);
         }
         //res.end(JSON.stringify(docs));
       }
     });
-    console.log('After bu_certification_ticket');
+
     // catch 404 and forward to error handler
     this.app.use(function(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
         err.status = 404;
@@ -182,4 +161,3 @@ export class Server {
   }
 
 }
-
